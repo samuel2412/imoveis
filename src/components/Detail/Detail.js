@@ -6,9 +6,15 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import BathtubIcon from '@material-ui/icons/Bathtub';
+import HotelIcon from '@material-ui/icons/Hotel';
+import DriveEtaIcon from '@material-ui/icons/DriveEta';
+import HomeIcon from '@material-ui/icons/Home';
 
 
 import DemoCarousel from '../UI/Carousel/Carousel';
+import Map from '../UI/Map/Map';
 
 
 const useStyles = makeStyles(theme => ({
@@ -87,8 +93,7 @@ const Detail = props => {
                 <div className={classes.conteneir}>
 
                     <div className={classes.media}>
-                        <DemoCarousel images={imovel.images} address={imovel.address.formattedAddress} />
-
+                        <DemoCarousel images={images} address={imovel.address.formattedAddress} />
                     </div>
 
                     <CardContent className={classes.content}>
@@ -96,22 +101,23 @@ const Detail = props => {
                             {imovel.address.formattedAddress}
                         </Typography>
                         <Typography variant="body1" component='p' color="textSecondary" >
-                            {`Preço: ${imovel.price}`}
+                            <AttachMoneyIcon color='primary' />{` R$ ${imovel.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`}
                         </Typography>
                         <Typography variant="body1" component='p' color="textSecondary">
-                            {`Banheiro(s): ${imovel.bathrooms}`}
+                            <BathtubIcon color='primary' />{` ${imovel.bathrooms}`}
                         </Typography>
                         <Typography variant="body1" component='p' color="textSecondary">
-                            {`Quarto(s): ${imovel.bedrooms}`}
+                            <HotelIcon color="primary" />{` ${imovel.bedrooms}`}
                         </Typography>
                         <Typography variant="body1" component='p' color="textSecondary">
-                            {`Vagas(s): ${imovel.parkingSpaces}`}
+                            <DriveEtaIcon color="primary" />{` ${imovel.parkingSpaces}`}
                         </Typography>
                         <Typography variant="body1" component='p' color="textSecondary">
-                            {`Área: ${imovel.usableArea}m`}
+                            <HomeIcon color="primary" />{` ${imovel.usableArea}m²`}
                         </Typography>
                     </CardContent>
                 </div>
+                <Map lat={imovel.address.geolocation.lat} lng={imovel.address.geolocation.lng} />
 
             </Card>
 

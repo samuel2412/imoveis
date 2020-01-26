@@ -9,12 +9,11 @@ import ImovelCard from '../ImovelCard/ImovelCard';
 const ImoveisList = props => {
     const { imoveis,redirectHandler } = props;
 
-    console.log(props.imoveis)
     return (
         <Container maxWidth="md">
             <Grid container spacing={3}>
                 {imoveis.map(imovel => (
-                    <Grid item key={imovel.id}>
+                    <Grid item xs={12} sm={6} key={imovel.id}>
                         
                         <ImovelCard imovel={imovel} onClickHandler={redirectHandler} />
 
