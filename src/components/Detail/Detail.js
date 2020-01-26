@@ -3,20 +3,19 @@ import axios from 'axios'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+
+import DemoCarousel from '../UI/Carousel/Carousel';
+
 
 const useStyles = makeStyles(theme => ({
     card: {
         boxShadow: `1px 1px 10px grey`,
-        height: 500,
+        height: '100%',
         width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            height: 300,
-        },
     },
     conteneir: {
         height: '100%',
@@ -49,13 +48,12 @@ const useStyles = makeStyles(theme => ({
 const Detail = props => {
     const classes = useStyles();
     const [imovel, setImovel] = useState(props.history.location.imovel);
+    const [images, setImages] = useState([])
     const [isLoading, setIsLoading] = useState(true);
-
-    /* console.log(props.history)
-    console.log(props.history.location.pathname.split('/')) */
 
     useEffect(() => {
         if (imovel) {
+            setImages(imovel.images)
             setIsLoading(false)
         }
     }, [imovel])
@@ -69,6 +67,7 @@ const Detail = props => {
                     const id = props.history.location.pathname.split('/')
                     const result = res.data.find(imovel => imovel.id === id[2])
                     setImovel(result)
+                    setImages(result.images)
                     setIsLoading(false)
                 })
                 .catch(err => {
@@ -76,11 +75,7 @@ const Detail = props => {
                     setIsLoading(false)
                 })
         }
-    }, [imovel,props.history.location.pathname])
-
-
-
-
+    }, [imovel, props.history.location.pathname])
 
     let content = (
         <CircularProgress color="primary" />
@@ -89,14 +84,13 @@ const Detail = props => {
     if (!isLoading) {
         content = (
             <Card className={classes.card}>
-                <CardActionArea className={classes.conteneir}>
-                    <CardMedia
-                        className={classes.media}
-                        component="img"
-                        image={imovel.images[0]}
-                        alt={`Imóvel na ${imovel.address.formattedAddress}`}
-                        title={`Imóvel na ${imovel.address.formattedAddress}`}
-                    />
+                <div className={classes.conteneir}>
+
+                    <div className={classes.media}>
+                        <DemoCarousel images={imovel.images} address={imovel.address.formattedAddress} />
+
+                    </div>
+
                     <CardContent className={classes.content}>
                         <Typography component="p" variant="button" gutterBottom>
                             {imovel.address.formattedAddress}
@@ -117,7 +111,7 @@ const Detail = props => {
                             {`Área: ${imovel.usableArea}m`}
                         </Typography>
                     </CardContent>
-                </CardActionArea>
+                </div>
 
             </Card>
 
@@ -126,7 +120,9 @@ const Detail = props => {
 
     return (
         <>
+
             {content}
+
         </>
     );
 }
