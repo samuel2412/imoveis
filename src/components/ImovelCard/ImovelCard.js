@@ -57,9 +57,9 @@ const ImovelCard = props => {
                 <CardMedia
                     className={classes.media}
                     component="img"
-                    alt="Contemplative Reptile"
                     image={imovel.images[0]}
-                    title="Contemplative Reptile"
+                    alt={`Imóvel na ${imovel.address.formattedAddress}`}
+                    title={`Imóvel na ${imovel.address.formattedAddress}`}
                 />
                 <CardContent className={classes.content}>
                     <Typography component="p" variant="button" gutterBottom>
