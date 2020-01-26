@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 import ImoveisList from '../../components/ImoveisList/ImoveisList';
+import InputSlider from '../../components/UI/InputSlider/InputSlider';
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -45,18 +46,21 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
 const LandingPage = props => {
     const classes = useStyles();
     const [imoveis, setImoveis] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(5);
+    const [value, setValue] = useState(['','']);
+
 
     useEffect(() => {
         setIsLoading(true)
         axios.get('http://5e148887bce1d10014baea80.mockapi.io/keycash/challenge')
             .then(response => {
+
                 const res = response.data;
+                console.log(res)
                 res.sort(function (a, b) {
                     return a.price - b.price;
                 });
@@ -74,66 +78,75 @@ const LandingPage = props => {
         props.history.push(
             {
                 pathname: `/detail/${id}`,
-                imovel: imoveis.find(imovel=> imovel.id === id)
+                imovel: imoveis.find(imovel => imovel.id === id)
             }
         )
-        }
+    }
 
-const showHandler = (number) => {
-    setShow(number)
-}
+    const showHandler = (number) => {
+        setShow(number)
+    }
 
-let content = (
-    <CircularProgress color="primary" />
-);
+    const handleInputChange = event => {
+        setValue(event.target.value === '' ? '' : Number(event.target.value));
+    };
 
-if (!isLoading) {
-    content = (
-        <Container align='center'>
-            <div className={classes.content}>
-                <div className={classes.sideMenu}>
-                    <Typography className={classes.listSizeButtons} variant="caption" component="span">
-                        Items por página
+    let content = (
+        <CircularProgress color="primary" />
+    );
+
+    if (!isLoading) {
+        content = (
+            <Container align='center'>
+                <div className={classes.content}>
+                    <div className={classes.sideMenu}>
+                        <Typography className={classes.listSizeButtons} variant="caption" component="span">
+                            Items por página
                            <Button color="primary" onClick={() => showHandler(5)}>5</Button>
-                        <Button color="primary" onClick={() => showHandler(10)}>10</Button>
-                        <Button color="primary" onClick={() => showHandler(15)}>15</Button>
-                    </Typography>
+                            <Button color="primary" onClick={() => showHandler(10)}>10</Button>
+                            <Button color="primary" onClick={() => showHandler(15)}>15</Button>
+                        </Typography>
 
-                </div>
-                <div className={classes.main}>
-                    <ImoveisList imoveis={imoveis.slice(0, show)} redirectHandler={redirectHandler}/>
 
-                    <div className={classes.moreLessButtons}>
-                        {show <= 5 ? null :
-                            <Button
-                                color="primary"
-                                variant='outlined'
-                                disabled={show <= 5}
-                                onClick={() => showHandler(show / 2)}>
-                                <ExpandLessIcon />
-                            </Button>
-                        }
-                        {show >= imoveis.length ? null :
-                            <Button
-                                color="primary"
-                                variant='outlined'
-                                disabled={show >= imoveis.length}
-                                onClick={() => showHandler(show * 2)}>
-                                <ExpandMoreIcon />
-                            </Button>
-                        }
+                        <InputSlider value={value} handleInputChange={handleInputChange} />
+                    </div>
+                  
+
+
+                    <div className={classes.main}>
+                        <ImoveisList imoveis={imoveis.slice(0, show)} redirectHandler={redirectHandler} />
+
+                        <div className={classes.moreLessButtons}>
+                            {show <= 5 ? null :
+                                <Button
+                                    color="primary"
+                                    variant='outlined'
+                                    disabled={show <= 5}
+                                    onClick={() => showHandler(show / 2)}>
+                                    <ExpandLessIcon />
+                                </Button>
+                            }
+                            {show >= imoveis.length ? null :
+                                <Button
+                                    color="primary"
+                                    variant='outlined'
+                                    disabled={show >= imoveis.length}
+                                    onClick={() => showHandler(show * 2)}>
+                                    <ExpandMoreIcon />
+                                </Button>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Container>
+            </Container>
+        );
+    }
+
+    return (
+
+        <>
+            {content}
+        </>
     );
-}
-
-return (
-
-    <>
-        {content}
-    </>
-);
 }
 export default LandingPage;
