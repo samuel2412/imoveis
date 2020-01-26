@@ -14,7 +14,7 @@ const ImoveisList = props => {
         <Container maxWidth="md">
             <Grid container spacing={3}>
                 {imoveis.map(imovel => (
-                    <Grid item xs={12} sm={12} md={12} key={imovel.id}>
+                    <Grid item key={imovel.id}>
                         
                         <ImovelCard imovel={imovel} />
 
