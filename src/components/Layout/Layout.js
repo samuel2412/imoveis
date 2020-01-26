@@ -7,8 +7,8 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         width: '90vw',
         margin: 'auto',
-        marginTop: theme.spacing(4),
-        marginBottom: theme.spacing(4)
+        marginTop: theme.spacing(6),
+        marginBottom: theme.spacing(6)
     },
     gridList: {
     },

@@ -14,7 +14,6 @@ import ImoveisList from '../../components/ImoveisList/ImoveisList';
 
 const useStyles = makeStyles(theme => ({
     content: {
-        marginTop: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
@@ -71,62 +70,70 @@ const LandingPage = props => {
             })
     }, [])
 
+    const redirectHandler = (id) => {
+        props.history.push(
+            {
+                pathname: `/detail/${id}`,
+                imovel: imoveis.find(imovel=> imovel.id === id)
+            }
+        )
+        }
 
-    const showHandler = (number) => {
-        setShow(number)
-    }
+const showHandler = (number) => {
+    setShow(number)
+}
 
-    let content = (
-        <CircularProgress color="primary" />
-    );
+let content = (
+    <CircularProgress color="primary" />
+);
 
-    if (!isLoading) {
-        content = (
-            <Container align='center'>
-                <div className={classes.content}>
-                    <div className={classes.sideMenu}>
-                        <Typography className={classes.listSizeButtons} variant="caption" component="span">
-                            Items por página
+if (!isLoading) {
+    content = (
+        <Container align='center'>
+            <div className={classes.content}>
+                <div className={classes.sideMenu}>
+                    <Typography className={classes.listSizeButtons} variant="caption" component="span">
+                        Items por página
                            <Button color="primary" onClick={() => showHandler(5)}>5</Button>
-                            <Button color="primary" onClick={() => showHandler(10)}>10</Button>
-                            <Button color="primary" onClick={() => showHandler(15)}>15</Button>
-                        </Typography>
+                        <Button color="primary" onClick={() => showHandler(10)}>10</Button>
+                        <Button color="primary" onClick={() => showHandler(15)}>15</Button>
+                    </Typography>
 
-                    </div>
-                    <div className={classes.main}>
-                        <ImoveisList imoveis={imoveis.slice(0, show)} />
+                </div>
+                <div className={classes.main}>
+                    <ImoveisList imoveis={imoveis.slice(0, show)} redirectHandler={redirectHandler}/>
 
-                        <div className={classes.moreLessButtons}>
-                            {show <= 5 ? null :
-                                <Button
-                                    color="primary"
-                                    variant='outlined'
-                                    disabled={show <= 5}
-                                    onClick={() => showHandler(show / 2)}>
-                                    <ExpandLessIcon />
-                                </Button>
-                            }
-                            {show >= imoveis.length ? null :
-                                <Button
-                                    color="primary"
-                                    variant='outlined'
-                                    disabled={show >= imoveis.length}
-                                    onClick={() => showHandler(show * 2)}>
-                                    <ExpandMoreIcon />
-                                </Button>
-                            }
-                        </div>
+                    <div className={classes.moreLessButtons}>
+                        {show <= 5 ? null :
+                            <Button
+                                color="primary"
+                                variant='outlined'
+                                disabled={show <= 5}
+                                onClick={() => showHandler(show / 2)}>
+                                <ExpandLessIcon />
+                            </Button>
+                        }
+                        {show >= imoveis.length ? null :
+                            <Button
+                                color="primary"
+                                variant='outlined'
+                                disabled={show >= imoveis.length}
+                                onClick={() => showHandler(show * 2)}>
+                                <ExpandMoreIcon />
+                            </Button>
+                        }
                     </div>
                 </div>
-            </Container>
-        );
-    }
-
-    return (
-
-        <>
-            {content}
-        </>
+            </div>
+        </Container>
     );
+}
+
+return (
+
+    <>
+        {content}
+    </>
+);
 }
 export default LandingPage;

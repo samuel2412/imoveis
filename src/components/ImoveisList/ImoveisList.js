@@ -7,7 +7,7 @@ import ImovelCard from '../ImovelCard/ImovelCard';
 
 
 const ImoveisList = props => {
-    const { imoveis } = props;
+    const { imoveis,redirectHandler } = props;
 
     console.log(props.imoveis)
     return (
@@ -16,7 +16,7 @@ const ImoveisList = props => {
                 {imoveis.map(imovel => (
                     <Grid item key={imovel.id}>
                         
-                        <ImovelCard imovel={imovel} />
+                        <ImovelCard imovel={imovel} onClickHandler={redirectHandler} />
 
                     </Grid >
                 ))}

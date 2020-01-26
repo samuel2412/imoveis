@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
     card: {
-        boxShadow: `1px 1px 10px grey`,  
+        boxShadow: `1px 1px 10px grey`,
         height: 500,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
@@ -48,42 +48,44 @@ const useStyles = makeStyles(theme => ({
 
 const ImovelCard = props => {
     const classes = useStyles();
-    const { imovel } = props;
+    const { imovel,onClickHandler } = props;
 
 
     return (
         <Card className={classes.card}>
-            <CardActionArea className={classes.conteneir}>
+            
+            <CardActionArea className={classes.conteneir}
+            onClick={() => onClickHandler(imovel.id)}>
                 <CardMedia
-                    className={classes.media}
-                    component="img"
-                    image={imovel.images[0]}
-                    alt={`Imóvel na ${imovel.address.formattedAddress}`}
-                    title={`Imóvel na ${imovel.address.formattedAddress}`}
-                />
-                <CardContent className={classes.content}>
-                    <Typography component="p" variant="button" gutterBottom>
-                        {imovel.address.formattedAddress}
-                    </Typography>
-                    <Typography variant="body1" component='p' color="textSecondary" >
-                        {`Preço: ${imovel.price}`}
-                    </Typography>
-                    <Typography variant="body1" component='p' color="textSecondary">
-                        {`Banheiro(s): ${imovel.bathrooms}`}
-                    </Typography>
-                    <Typography variant="body1" component='p' color="textSecondary">
-                        {`Quarto(s): ${imovel.bedrooms}`}
-                    </Typography>
-                    <Typography variant="body1" component='p' color="textSecondary">
-                        {`Vagas(s): ${imovel.parkingSpaces}`}
-                    </Typography>
-                    <Typography variant="body1" component='p' color="textSecondary">
-                        {`Área: ${imovel.usableArea}m`}
-                    </Typography>
-                </CardContent>
+                className={classes.media}
+                component="img"
+                image={imovel.images[0]}
+                alt={`Imóvel na ${imovel.address.formattedAddress}`}
+                title={`Imóvel na ${imovel.address.formattedAddress}`}
+            />
+            <CardContent className={classes.content}>
+                <Typography component="p" variant="button" gutterBottom>
+                    {imovel.address.formattedAddress}
+                </Typography>
+                <Typography variant="body1" component='p' color="textSecondary" >
+                    {`Preço: ${imovel.price}`}
+                </Typography>
+                <Typography variant="body1" component='p' color="textSecondary">
+                    {`Banheiro(s): ${imovel.bathrooms}`}
+                </Typography>
+                <Typography variant="body1" component='p' color="textSecondary">
+                    {`Quarto(s): ${imovel.bedrooms}`}
+                </Typography>
+                <Typography variant="body1" component='p' color="textSecondary">
+                    {`Vagas(s): ${imovel.parkingSpaces}`}
+                </Typography>
+                <Typography variant="body1" component='p' color="textSecondary">
+                    {`Área útil: ${imovel.usableArea}m`}
+                </Typography>
+            </CardContent>
             </CardActionArea>
-           
-        </Card>
+
+        </Card >
 
     );
 }
