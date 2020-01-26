@@ -14,7 +14,7 @@ const DemoCarousel = props => {
         >
             {props.images.map(image => (
                 <div key={image}>
-                    <img src={image} style={{maxHeight: 300}} alt={`Imóvel na ${props.address}`}/>
+                    <img src={image} style={props.style} alt={`Imóvel na ${props.address}`}/>
                 </div>
 
             ))}

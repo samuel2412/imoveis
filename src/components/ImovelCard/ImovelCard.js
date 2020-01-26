@@ -54,7 +54,7 @@ const ImovelCard = props => {
             <div className={classes.conteneir}>
 
 
-                <DemoCarousel images={imovel.images} address={imovel.address.formattedAddress} />
+                <DemoCarousel style={{maxHeight: 300}} images={imovel.images} address={imovel.address.formattedAddress} />
 
                 <CardContent className={classes.content}>
                     <Typography component="p" variant="button" gutterBottom>
