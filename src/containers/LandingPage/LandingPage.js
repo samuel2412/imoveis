@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
 
 
 import ImoveisList from '../../components/ImoveisList/ImoveisList';
@@ -28,18 +28,23 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         textAlign: 'bottom',
+
         marginBottom: theme.spacing(2),
         [theme.breakpoints.up('md')]: {
             flexDirection: 'column',
             width: '20%'
         },
     },
-    listSizeButtons: {
+    filters: {
+        width: '100%',
         marginBottom: theme.spacing(1),
         [theme.breakpoints.up('md')]: {
             display: 'flex',
             flexDirection: 'column',
         },
+    },
+    input: {
+        margin: theme.spacing(1),
     },
     moreLessButtons: {
         marginTop: theme.spacing(5),
@@ -50,8 +55,12 @@ const LandingPage = props => {
     const classes = useStyles();
     const [imoveis, setImoveis] = useState([])
     const [isLoading, setIsLoading] = useState(false);
-    const [show, setShow] = useState(5);
-    const [value, setValue] = useState(['','']);
+    const [pageValue, setPageValue] = useState(5);
+    const [minPriceValue, setMinPriceValue] = useState('');
+    const [maxPriceValue, setMaxPriceValue] = useState('');
+    const [minAreaValue, setMinAreaValue] = useState('');
+    const [maxAreaValue, setMaxAreaValue] = useState('');
+
 
 
     useEffect(() => {
@@ -83,13 +92,15 @@ const LandingPage = props => {
         )
     }
 
-    const showHandler = (number) => {
-        setShow(number)
-    }
 
-    const handleInputChange = event => {
-        setValue(event.target.value === '' ? '' : Number(event.target.value));
-    };
+    const applyFilter = (imoveis) => {
+        return imoveis.filter(imovel =>
+            imovel.price >= (minPriceValue === '' ? 0 : minPriceValue) &&
+            imovel.price <= (maxPriceValue === '' ? imovel.price : maxPriceValue) &&
+            imovel.usableArea >= (minAreaValue === '' ? 0 : minAreaValue) &&
+            imovel.usableArea <= (maxAreaValue === '' ? imovel.usableArea : maxAreaValue)
+        ).slice(0, pageValue)
+    }
 
     let content = (
         <CircularProgress color="primary" />
@@ -100,38 +111,89 @@ const LandingPage = props => {
             <Container align='center'>
                 <div className={classes.content}>
                     <div className={classes.sideMenu}>
-                        <Typography className={classes.listSizeButtons} variant="caption" component="span">
-                            Items por página
-                           <Button color="primary" onClick={() => showHandler(5)}>5</Button>
-                            <Button color="primary" onClick={() => showHandler(10)}>10</Button>
-                            <Button color="primary" onClick={() => showHandler(15)}>15</Button>
-                        </Typography>
+                        <div className={classes.filters}>
+                            <div>
+                                <Input
+                                    className={classes.input}
+                                    placeholder={'Preço mínimo'}
+                                    value={minPriceValue}
+                                    onChange={(event) => setMinPriceValue(event.target.value)}
+                                    color="primary"
+                                    margin="dense"
+                                    inputProps={{
+                                        min: 0,
+                                        type: 'number',
+                                        'aria-labelledby': 'input-slider',
+                                    }}
+                                />
+                                <Input
+                                    className={classes.input}
+                                    placeholder={'Preço máximo'}
+                                    value={maxPriceValue}
+                                    margin="dense"
+                                    onChange={(event) => setMaxPriceValue(event.target.value)}
+                                    inputProps={{
+                                        min: 0,
+                                        type: 'number',
+                                        'aria-labelledby': 'input-slider',
+                                    }}
+                                />
+                            </div>
+
+                            <div>
+                                <Input
+                                    className={classes.input}
+                                    placeholder={'Área mínima'}
+                                    value={minAreaValue}
+                                    onChange={(event) => setMinAreaValue(event.target.value)}
+                                    color="primary"
+                                    margin="dense"
+                                    inputProps={{
+                                        min: 0,
+                                        type: 'number',
+                                        'aria-labelledby': 'input-slider',
+                                    }}
+                                />
+                                <Input
+                                    className={classes.input}
+                                    placeholder={'Área máxima'}
+                                    value={maxAreaValue}
+                                    margin="dense"
+                                    onChange={(event) => setMaxAreaValue(event.target.value)}
+                                    inputProps={{
+                                        min: 0,
+                                        type: 'number',
+                                        'aria-labelledby': 'input-slider',
+                                    }}
+                                />
+                                <InputSlider min={5} max={15} step={5} title={'Itens por página'} value={pageValue} setValue={setPageValue} />
+                            </div>
 
 
-                        <InputSlider value={value} handleInputChange={handleInputChange} />
+                        </div>
                     </div>
-                  
+
 
 
                     <div className={classes.main}>
-                        <ImoveisList imoveis={imoveis.slice(0, show)} redirectHandler={redirectHandler} />
+                        <ImoveisList imoveis={applyFilter(imoveis)} redirectHandler={redirectHandler} />
 
                         <div className={classes.moreLessButtons}>
-                            {show <= 5 ? null :
+                            {pageValue <= 5 ? null :
                                 <Button
                                     color="primary"
                                     variant='outlined'
-                                    disabled={show <= 5}
-                                    onClick={() => showHandler(show / 2)}>
+                                    disabled={pageValue <= 5}
+                                    onClick={() => setPageValue(pageValue / 2)}>
                                     <ExpandLessIcon />
                                 </Button>
                             }
-                            {show >= imoveis.length ? null :
+                            {pageValue >= imoveis.length ? null :
                                 <Button
                                     color="primary"
                                     variant='outlined'
-                                    disabled={show >= imoveis.length}
-                                    onClick={() => showHandler(show * 2)}>
+                                    disabled={pageValue >= imoveis.length}
+                                    onClick={() => setPageValue(pageValue * 2)}>
                                     <ExpandMoreIcon />
                                 </Button>
                             }

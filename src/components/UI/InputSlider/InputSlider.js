@@ -1,55 +1,43 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     root: {
-        width: 250,
+        width: '100%',
     },
-    input: {
-        margin: theme.spacing(1),
-        width: 90,
-    }
-}));
+});
+
+function valuetext(value) {
+    return `${value}`;
+}
 
 const InputSlider = props => {
     const classes = useStyles();
-    const { value, setValue } = props;
+    const { value, setValue,min,max,step } = props;
 
-
-    
-
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     return (
-        <div className={classes.root} noValidate autoComplete="off">
-
-            <div  >
-                <Input
-                    placeholder='min'
-                    className={classes.input}
-                    value={value[0]}
-                    margin="dense"
-                    onChange={props.handleInputChange}
-                    inputProps={{
-                        min: 0,
-                        type: 'number',
-                        'aria-labelledby': 'input-slider',
-                    }}
+        <div className={classes.root}>
+            <Typography id="range-slider" color='textSecondary'>
+                {props.title}
+            </Typography>
+           
+                <Slider
+                    value={value}
+                    min={min || 0}
+                    step={step || 1}
+                    max={max || 1000}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="range-slider"
+                    getAriaValueText={valuetext}
                 />
-
-
-                <Input
-                    placeholder='max'
-                    className={classes.input}
-                    value={value[1]}
-                    margin="dense"
-                    onChange={props.handleInputChange}
-                    inputProps={{
-                        type: 'number',
-                        'aria-labelledby': 'input-slider',
-                    }}
-                />
-            </div>
+            
         </div>
     );
 }
