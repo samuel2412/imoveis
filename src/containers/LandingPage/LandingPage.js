@@ -7,9 +7,6 @@ import Container from '@material-ui/core/Container';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { makeStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputSlider from '../../components/UI/InputSlider/InputSlider';
-
 
 import ImoveisList from '../../components/ImoveisList/ImoveisList';
 import FilterInputs from '../../components/FilterInputs/FilterInputs';
@@ -46,12 +43,12 @@ const LandingPage = props => {
         setIsLoading(true)
         axios.get('http://5e148887bce1d10014baea80.mockapi.io/keycash/challenge')
             .then(response => {
-
                 const res = response.data;
                 res.sort(function (a, b) {
                     return a.price - b.price;
                 });
-                const filteredResponse = res.filter(imovel => imovel.publish)
+             
+                const filteredResponse = res.filter(imovel => imovel.publish && !(imovel.address.formattedAddress.includes('??')))
                 setImoveis(filteredResponse)
                 setIsLoading(false)
             })
