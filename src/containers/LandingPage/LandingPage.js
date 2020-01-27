@@ -8,10 +8,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
+import InputSlider from '../../components/UI/InputSlider/InputSlider';
 
 
 import ImoveisList from '../../components/ImoveisList/ImoveisList';
-import InputSlider from '../../components/UI/InputSlider/InputSlider';
+import FilterInputs from '../../components/FilterInputs/FilterInputs';
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -23,28 +24,6 @@ const useStyles = makeStyles(theme => ({
     },
     main: {
         flex: 1
-    },
-    sideMenu: {
-        display: 'flex',
-        flexDirection: 'row',
-        textAlign: 'bottom',
-
-        marginBottom: theme.spacing(2),
-        [theme.breakpoints.up('md')]: {
-            flexDirection: 'column',
-            width: '20%'
-        },
-    },
-    filters: {
-        width: '100%',
-        marginBottom: theme.spacing(1),
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-            flexDirection: 'column',
-        },
-    },
-    input: {
-        margin: theme.spacing(1),
     },
     moreLessButtons: {
         marginTop: theme.spacing(5),
@@ -109,68 +88,19 @@ const LandingPage = props => {
         content = (
             <Container align='center'>
                 <div className={classes.content}>
-                    <div className={classes.sideMenu}>
-                        <div className={classes.filters}>
-                            <div>
-                                <Input
-                                    className={classes.input}
-                                    placeholder={'Preço mínimo'}
-                                    value={minPriceValue}
-                                    onChange={(event) => setMinPriceValue(event.target.value)}
-                                    color="primary"
-                                    margin="dense"
-                                    inputProps={{
-                                        min: 0,
-                                        type: 'number',
-                                        'aria-labelledby': 'input-slider',
-                                    }}
-                                />
-                                <Input
-                                    className={classes.input}
-                                    placeholder={'Preço máximo'}
-                                    value={maxPriceValue}
-                                    margin="dense"
-                                    onChange={(event) => setMaxPriceValue(event.target.value)}
-                                    inputProps={{
-                                        min: 0,
-                                        type: 'number',
-                                        'aria-labelledby': 'input-slider',
-                                    }}
-                                />
-                            </div>
 
-                            <div>
-                                <Input
-                                    className={classes.input}
-                                    placeholder={'Área mínima'}
-                                    value={minAreaValue}
-                                    onChange={(event) => setMinAreaValue(event.target.value)}
-                                    color="primary"
-                                    margin="dense"
-                                    inputProps={{
-                                        min: 0,
-                                        type: 'number',
-                                        'aria-labelledby': 'input-slider',
-                                    }}
-                                />
-                                <Input
-                                    className={classes.input}
-                                    placeholder={'Área máxima'}
-                                    value={maxAreaValue}
-                                    margin="dense"
-                                    onChange={(event) => setMaxAreaValue(event.target.value)}
-                                    inputProps={{
-                                        min: 0,
-                                        type: 'number',
-                                        'aria-labelledby': 'input-slider',
-                                    }}
-                                />
-                                <InputSlider min={5} max={15} step={5} title={'Itens por página'} value={pageValue} setValue={setPageValue} />
-                            </div>
-
-
-                        </div>
-                    </div>
+                    <FilterInputs
+                        minPriceValue={minPriceValue}
+                        setMinPriceValue={setMinPriceValue}
+                        maxPriceValue={maxPriceValue}
+                        setMaxPriceValue={setMaxPriceValue}
+                        minAreaValue={minAreaValue}
+                        setMinAreaValue={setMinAreaValue}
+                        maxAreaValue={maxAreaValue}
+                        setMaxAreaValue={setMaxAreaValue}
+                        pageValue={pageValue}
+                        setPageValue={setPageValue}
+                    />
 
 
 
