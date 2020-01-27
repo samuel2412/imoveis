@@ -69,7 +69,6 @@ const LandingPage = props => {
             .then(response => {
 
                 const res = response.data;
-                console.log(res)
                 res.sort(function (a, b) {
                     return a.price - b.price;
                 });

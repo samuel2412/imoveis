@@ -96,7 +96,7 @@ const Detail = props => {
         }
     }, [imovel, props.history.location.pathname])
 
-    const onClickHandler = () =>{
+    const onClickHandler = () => {
         props.history.push('/');
     }
 
@@ -179,14 +179,14 @@ const Detail = props => {
                         </Grid>
 
                     </CardContent>
-                    <CardActions >
-                        <IconButton style={{ marginRight: 'auto' }} color="primary" onClick={() => onClickHandler()}>
-                            <ArrowBackIosIcon />
-                        </IconButton>
-                    </CardActions>
+
                 </div>
                 <Map lat={imovel.address.geolocation.lat} lng={imovel.address.geolocation.lng} />
-
+                <CardActions >
+                    <IconButton style={{ marginRight: 'auto' }} color="primary" onClick={() => onClickHandler()}>
+                        <ArrowBackIosIcon />
+                    </IconButton>
+                </CardActions>
             </Card>
 
         );
